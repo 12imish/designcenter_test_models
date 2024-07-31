@@ -20,7 +20,6 @@ __MWOPC_PART_BEGIN__ /[Content_Types].xml
   <Override ContentType="application/vnd.mathworks.simulink.pluginParameters+xml" PartName="/simulink/plugins/SimscapeModelParametersPlugin.xml"/>
   <Override ContentType="application/vnd.mathworks.simulink.ScheduleCore+xml" PartName="/simulink/ScheduleCore.xml"/>
   <Override ContentType="application/vnd.mathworks.simulink.ScheduleEditor+xml" PartName="/simulink/ScheduleEditor.xml"/>
-  <Override ContentType="application/vnd.mathworks.stateflow.machine+xml" PartName="/simulink/stateflow/machine.xml"/>
   <Override ContentType="application/vnd.mathworks.simulink.blockDiagram+xml" PartName="/simulink/windowsInfo.xml"/>
 </Types>
 
@@ -41,21 +40,15 @@ __MWOPC_PART_BEGIN__ /metadata/coreProperties.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <cp:category>model</cp:category>
-  <dcterms:created xsi:type="dcterms:W3CDTF">2004-03-12T15:05:04Z</dcterms:created>
+  <dcterms:created xsi:type="dcterms:W3CDTF">2004-02-19T02:05:05Z</dcterms:created>
   <dc:creator>The MathWorks, Inc.</dc:creator>
-  <dc:description>Analog-to-Digital Converter Quantization Algorithm
+  <dc:description>ITS-90 Thermocouple Models
 
-The quantization algorithm in the model takes in a 0 to 5 volt signal and outputs 
-a 12-bit digital word in a 16-bit signed integer. A value of 0 corresponds to 0 Volts 
-and a value of 4096 would correspond to 5 Volts. A change in the least 
-significant bit (LSB) is about 1.2 mV. As 12 bits can only reach the value of 
-4095, the highest voltage that can be read by this device is approximately 
-4.9988 Volts. In order to have no more than 1/2 LSB error, the quantizer changes 
-values midway between each voltage point, resulting in a 1/2-width interval at 
-0 Volts and a 3/2-width interval just below 5 Volts.
+Full-Range 2 degrees Celsius Interpolated Thermocouple Tables created using
+one ITS-90 Interpolating Polynomial and one inverse polynomial per junction type.
 </dc:description>
   <cp:lastModifiedBy>neham</cp:lastModifiedBy>
-  <dcterms:modified xsi:type="dcterms:W3CDTF">2024-07-25T08:40:35Z</dcterms:modified>
+  <dcterms:modified xsi:type="dcterms:W3CDTF">2024-07-25T08:25:58Z</dcterms:modified>
   <cp:revision>11.1</cp:revision>
   <cp:version>R2024a</cp:version>
 </cp:coreProperties>
@@ -71,7 +64,7 @@ __MWOPC_PART_BEGIN__ /metadata/mwcoreProperties.xml
 __MWOPC_PART_BEGIN__ /metadata/mwcorePropertiesExtension.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <mwcoreProperties xmlns="http://schemas.mathworks.com/package/2014/corePropertiesExtension">
-  <uuid>ad56061e-20d4-4802-9145-e8a5aea4e3d6</uuid>
+  <uuid>c33749ef-0c1c-4ffa-958b-f6821c7f23cb</uuid>
 </mwcoreProperties>
 
 __MWOPC_PART_BEGIN__ /metadata/mwcorePropertiesReleaseInfo.xml
@@ -92,7 +85,6 @@ __MWOPC_PART_BEGIN__ /simulink/_rels/blockdiagram.xml.rels
   <Relationship Id="ScheduleEditor" Target="ScheduleEditor.xml" Type="http://schemas.mathworks.com/simulink/2013/relationships/ScheduleEditor"/>
   <Relationship Id="SimscapeModelParametersPlugin" Target="plugins/SimscapeModelParametersPlugin.xml" Type="http://schemas.mathworks.com/simulinkModel/2014/relationships/pluginParameters"/>
   <Relationship Id="graphicalInterface" Target="graphicalInterface.xml" Type="http://schemas.mathworks.com/simulinkModel/2014/relationships/graphicalInterface"/>
-  <Relationship Id="stateflow_machine" Target="stateflow/machine.xml" Type="http://schemas.mathworks.com/simulinkModel/2014/relationships/stateflowMachine"/>
   <Relationship Id="system_root" Target="systems/system_root.xml" Type="http://schemas.mathworks.com/simulink/2010/relationships/system"/>
   <Relationship Id="windowsInfo" Target="windowsInfo.xml" Type="http://schemas.mathworks.com/simulinkModel/2019/relationships/windowsInfo"/>
 </Relationships>
@@ -106,17 +98,10 @@ __MWOPC_PART_BEGIN__ /simulink/_rels/configSetInfo.xml.rels
 __MWOPC_PART_BEGIN__ /simulink/bddefaults.xml
 <?xml version="1.0" encoding="utf-8"?>
 <BlockDiagramDefaults>
-  <BlockDefaults>
-    <P Name="FontName">Default</P>
-  </BlockDefaults>
   <AnnotationDefaults>
     <P Name="HorizontalAlignment">center</P>
     <P Name="VerticalAlignment">middle</P>
-    <P Name="FontName">Courier New</P>
   </AnnotationDefaults>
-  <LineDefaults>
-    <P Name="FontName">Courier New</P>
-  </LineDefaults>
   <MaskDefaults SelfModifiable="off">
     <Display IconFrame="on" IconOpaque="opaque" RunInitForIconRedraw="analyze" IconRotate="none" PortRotate="default" IconUnits="autoscale"/>
     <MaskParameter Evaluate="on" Tunable="on" NeverSave="off" Internal="off" ReadOnly="off" Enabled="on" Visible="on" ToolTip="on"/>
@@ -130,32 +115,7 @@ __MWOPC_PART_BEGIN__ /simulink/blockdiagram.xml
 <?xml version="1.0" encoding="utf-8"?>
 <ModelInformation Version="1.0">
   <Model>
-    <P Name="ModelUUID">26771fe3-9c1e-4919-9e58-3c966c6d184f</P>
-    <P Name="CloseFcn">if exist(&apos;adc_ploth&apos;)
-  if ishghandle(adc_ploth,&apos;figure&apos;)
-    close(adc_ploth)
-  end
-  clear adc_ploth
-  if exist(&apos;tout&apos;), clear tout; end
-  if exist(&apos;yout&apos;), clear yout; end
-end
-</P>
-    <P Name="StartFcn">if exist(&apos;adc_ploth&apos;)
-  if ishghandle(adc_ploth,&apos;figure&apos;)
-    close(adc_ploth)
-  end
-  clear adc_ploth
-end
-</P>
-    <P Name="StopFcn">if exist(&apos;yout&apos;)
- if isstruct(yout)
-  adc_ploth = figure;
-  plot(yout.signals(1).values,double(yout.signals(2).values),&apos;bo-&apos;), grid, hold on, plot([0,4096],[0,4096],&apos;g&apos;), hold off
-  title(sprintf(&apos;Idealized A/D converter quantization algorithm \n (Zoom in close with the mouse to see behavior details)&apos;))
-  zoom on
- end
-end
-</P>
+    <P Name="ModelUUID">751ae3fc-ce62-422c-9473-3fdd13cc5c06</P>
     <P Name="LastSavedArchitecture">glnxa64</P>
     <ConfigManagerSettings>
       <P Name="ModifiedByFormat">%&lt;Auto&gt;</P>
@@ -164,9 +124,6 @@ end
     </ConfigManagerSettings>
     <EditorSettings>
       <P Name="LibraryLinkDisplay">none</P>
-      <P Name="ShowPortDataTypes">on</P>
-      <P Name="ShowViewerIcons">off</P>
-      <P Name="ShowLinearizationAnnotations">off</P>
       <P Name="MultithreadedSim">on</P>
     </EditorSettings>
     <SimulationSettings>
@@ -195,6 +152,10 @@ end
         <P Name="DefaultExtrapolationMethodBetweenContTasks" Class="char">None</P>
       </Object>
     </ConcurrentExecutionSettings>
+    <ModelWorkspace>
+      <P Name="WSDataSource">MAT-File</P>
+      <P Name="WSSourceFileName">sldemo_tc_blocks_data.mat</P>
+    </ModelWorkspace>
     <System Ref="system_root"/>
   </Model>
 </ModelInformation>
@@ -211,10 +172,10 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="Description"/>
         <P Name="Components" Class="double">[]</P>
         <P Name="StartTime">0.0</P>
-        <P Name="StopTime">6000</P>
+        <P Name="StopTime">1</P>
         <P Name="AbsTol">auto</P>
         <P Name="AutoScaleAbsTol">on</P>
-        <P Name="FixedStep">0.1</P>
+        <P Name="FixedStep">1</P>
         <P Name="InitialStep">auto</P>
         <P Name="MaxOrder">5</P>
         <P Name="ZcThreshold">auto</P>
@@ -222,14 +183,14 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="MaxConsecutiveZCs">1000</P>
         <P Name="ExtrapolationOrder">4</P>
         <P Name="NumberNewtonIterations">1</P>
-        <P Name="MaxStep">0.1</P>
+        <P Name="MaxStep">auto</P>
         <P Name="MinStep">auto</P>
         <P Name="MaxConsecutiveMinStep">1</P>
         <P Name="RelTol">1e-3</P>
         <P Name="EnableMultiTasking">on</P>
         <P Name="AllowMultiTaskInputOutput">off</P>
         <P Name="ConcurrentTasks">off</P>
-        <P Name="SolverName">VariableStepDiscrete</P>
+        <P Name="SolverName">FixedStepDiscrete</P>
         <P Name="SolverJacobianMethodControl">auto</P>
         <P Name="DaesscMode">auto</P>
         <P Name="ShapePreserveControl">DisableAll</P>
@@ -256,16 +217,16 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="Description"/>
         <P Name="Components" Class="double">[]</P>
         <P Name="Decimation">1</P>
-        <P Name="ExternalInput">ustruct</P>
+        <P Name="ExternalInput">[t, u]</P>
         <P Name="FinalStateName">xFinal</P>
         <P Name="InitialState">xInitial</P>
-        <P Name="LimitDataPoints">off</P>
-        <P Name="MaxDataPoints">5000</P>
+        <P Name="LimitDataPoints">on</P>
+        <P Name="MaxDataPoints">1000</P>
         <P Name="LoadExternalInput">off</P>
         <P Name="LoadInitialState">off</P>
         <P Name="SaveFinalState">off</P>
         <P Name="SaveOperatingPoint">off</P>
-        <P Name="SaveFormat">StructureWithTime</P>
+        <P Name="SaveFormat">Array</P>
         <P Name="SignalLoggingSaveFormat">Dataset</P>
         <P Name="SaveOutput">on</P>
         <P Name="SaveState">off</P>
@@ -277,7 +238,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="StreamToWorkspace">off</P>
         <P Name="StreamVariableName">streamout</P>
         <P Name="SaveTime">on</P>
-        <P Name="ReturnWorkspaceOutputs">off</P>
+        <P Name="ReturnWorkspaceOutputs">on</P>
         <P Name="StateSaveName">xout</P>
         <P Name="TimeSaveName">tout</P>
         <P Name="OutputSaveName">yout</P>
@@ -293,29 +254,42 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="LoggingIntervals">[-inf, inf]</P>
       </Object>
       <Object ObjectID="4" Version="24.0.0" ClassName="Simulink.OptimizationCC">
-        <P Name="DisabledProps" Class="double">[]</P>
+        <Array PropName="DisabledProps" Type="Cell" Dimension="1*12">
+          <Cell Class="char">ZeroExternalMemoryAtStartup</Cell>
+          <Cell Class="char">ZeroInternalMemoryAtStartup</Cell>
+          <Cell Class="char">BufferReuse</Cell>
+          <Cell Class="char">OptimizeModelRefInitCode</Cell>
+          <Cell Class="char">NoFixptDivByZeroProtection</Cell>
+          <Cell Class="char">LocalBlockOutputs</Cell>
+          <Cell Class="char">BooleansAsBitfields</Cell>
+          <Cell Class="char">PassReuseOutputArgsAs</Cell>
+          <Cell Class="char">PassReuseOutputArgsThreshold</Cell>
+          <Cell Class="char">UseSpecifiedMinMax</Cell>
+          <Cell Class="char">EfficientTunableParamExpr</Cell>
+          <Cell Class="char">RemoveLocalVariableInitialization</Cell>
+        </Array>
         <P Name="Description"/>
         <P Name="Components" Class="double">[]</P>
-        <P Name="BlockReduction">on</P>
-        <P Name="BooleanDataType">off</P>
-        <P Name="ConditionallyExecuteInputs">on</P>
-        <P Name="DefaultParameterBehavior">Inlined</P>
+        <P Name="BlockReduction">off</P>
+        <P Name="BooleanDataType">on</P>
+        <P Name="ConditionallyExecuteInputs">off</P>
+        <P Name="DefaultParameterBehavior">Tunable</P>
         <P Name="UseDivisionForNetSlopeComputation">off</P>
         <P Name="GainParamInheritBuiltInType">off</P>
         <P Name="UseFloatMulNetSlope">off</P>
         <P Name="InheritOutputTypeSmallerThanSingle">off</P>
         <P Name="DefaultUnderspecifiedDataType">double</P>
         <P Name="UseSpecifiedMinMax">off</P>
-        <P Name="InlineInvariantSignals">on</P>
-        <P Name="OptimizeBlockIOStorage">on</P>
-        <P Name="BufferReuse">on</P>
+        <P Name="InlineInvariantSignals">off</P>
+        <P Name="OptimizeBlockIOStorage">off</P>
+        <P Name="BufferReuse">off</P>
         <P Name="ReuseModelBlockBuffer">on</P>
         <P Name="EnhancedBackFolding">off</P>
         <P Name="CachingGlobalReferences">off</P>
-        <P Name="GlobalBufferReuse">on</P>
+        <P Name="GlobalBufferReuse">off</P>
         <P Name="StrengthReduction">off</P>
         <P Name="AdvancedOptControl"/>
-        <P Name="ExpressionFolding">on</P>
+        <P Name="ExpressionFolding">off</P>
         <P Name="BooleansAsBitfields">off</P>
         <P Name="BitfieldContainerType">uint_T</P>
         <P Name="BitwiseOrLogicalOp">Same as modeled</P>
@@ -324,18 +298,18 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="PassReuseOutputArgsAs">Structure reference</P>
         <P Name="PassReuseOutputArgsThreshold">12</P>
         <P Name="ExpressionDepthLimit">2147483647</P>
-        <P Name="LocalBlockOutputs">on</P>
+        <P Name="LocalBlockOutputs">off</P>
         <P Name="RollThreshold">5</P>
         <P Name="StateBitsets">off</P>
         <P Name="DataBitsets">off</P>
         <P Name="ActiveStateOutputEnumStorageType">Native Integer</P>
-        <P Name="ZeroExternalMemoryAtStartup">off</P>
+        <P Name="ZeroExternalMemoryAtStartup">on</P>
         <P Name="ZeroInternalMemoryAtStartup">on</P>
         <P Name="InitFltsAndDblsToZero">on</P>
         <P Name="NoFixptDivByZeroProtection">off</P>
         <P Name="EfficientFloat2IntCast">off</P>
-        <P Name="EfficientMapNaN2IntZero">on</P>
-        <P Name="LifeSpan">1</P>
+        <P Name="EfficientMapNaN2IntZero">off</P>
+        <P Name="LifeSpan">inf</P>
         <P Name="ClockResolution">-1</P>
         <P Name="MaxStackSize">Inherit from target</P>
         <P Name="BufferReusableBoundary">off</P>
@@ -343,8 +317,8 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="SimCompilerOptimization">off</P>
         <P Name="AccelVerboseBuild">off</P>
         <P Name="OptimizeBlockOrder">off</P>
-        <P Name="OptimizeDataStoreBuffers">on</P>
-        <P Name="BusAssignmentInplaceUpdate">on</P>
+        <P Name="OptimizeDataStoreBuffers">off</P>
+        <P Name="BusAssignmentInplaceUpdate">off</P>
         <P Name="DifferentSizesBufferReuse">off</P>
         <P Name="UseRowMajorAlgorithm">off</P>
         <P Name="OptimizationLevel">level2</P>
@@ -354,10 +328,12 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="MultiThreadedLoops">off</P>
         <P Name="AutoScheduleForLoops">off</P>
         <P Name="DenormalBehavior">GradualUnderflow</P>
-        <P Name="EfficientTunableParamExpr">on</P>
+        <P Name="EfficientTunableParamExpr">off</P>
       </Object>
       <Object ObjectID="5" Version="24.0.0" ClassName="Simulink.DebuggingCC">
-        <P Name="DisabledProps" Class="double">[]</P>
+        <Array PropName="DisabledProps" Type="Cell" Dimension="1*1">
+          <Cell Class="char">UseOnlyExistingSharedCode</Cell>
+        </Array>
         <P Name="Description"/>
         <P Name="Components" Class="double">[]</P>
         <P Name="RTPrefix">error</P>
@@ -372,7 +348,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="AlgebraicLoopMsg">warning</P>
         <P Name="ArtificialAlgebraicLoopMsg">warning</P>
         <P Name="SaveWithDisabledLinksMsg">warning</P>
-        <P Name="SaveWithParameterizedLinksMsg">none</P>
+        <P Name="SaveWithParameterizedLinksMsg">warning</P>
         <P Name="CheckSSInitialOutputMsg">on</P>
         <P Name="UnderspecifiedInitializationDetection">Classic</P>
         <P Name="MergeDetectMultiDrivingBlocksExec">none</P>
@@ -384,7 +360,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="MaxConsecutiveZCsMsg">error</P>
         <P Name="MaskedZcDiagnostic">warning</P>
         <P Name="IgnoredZcDiagnostic">warning</P>
-        <P Name="SolverPrmCheckMsg">warning</P>
+        <P Name="SolverPrmCheckMsg">none</P>
         <P Name="InheritedTsInSrcMsg">warning</P>
         <P Name="MultiTaskDSMMsg">warning</P>
         <P Name="MultiTaskCondExecSysMsg">none</P>
@@ -413,8 +389,8 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="VectorMatrixConversionMsg">none</P>
         <P Name="FcnCallInpInsideContextMsg">warning</P>
         <P Name="SignalLabelMismatchMsg">none</P>
-        <P Name="UnconnectedInputMsg">warning</P>
-        <P Name="UnconnectedOutputMsg">warning</P>
+        <P Name="UnconnectedInputMsg">none</P>
+        <P Name="UnconnectedOutputMsg">none</P>
         <P Name="UnconnectedLineMsg">warning</P>
         <P Name="UseOnlyExistingSharedCode">error</P>
         <P Name="SFcnCompatibilityMsg">none</P>
@@ -561,7 +537,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="SimCtrlC">on</P>
         <P Name="SimIntegrity">on</P>
         <P Name="SimUseLocalCustomCode">off</P>
-        <P Name="SimParseCustomCode">off</P>
+        <P Name="SimParseCustomCode">on</P>
         <P Name="SimAnalyzeCustomCode">off</P>
         <P Name="SimDebugExecutionForCustomCode">off</P>
         <P Name="SimGenImportedTypeDefs">off</P>
@@ -590,9 +566,28 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="SimDLAutoTuning">on</P>
       </Object>
       <Object BackupClass="Simulink.RTWCC" ObjectID="9" Version="24.0.0" ClassName="Simulink.RTWCC">
-        <P Name="DisabledProps" Class="double">[]</P>
-        <P Name="Description">RTW Embedded Coder (no auto configuration)</P>
-        <P Name="SystemTargetFile">ert.tlc</P>
+        <Array PropName="DisabledProps" Type="Cell" Dimension="1*18">
+          <Cell Class="char">IncludeHyperlinkInReport</Cell>
+          <Cell Class="char">GenerateTraceInfo</Cell>
+          <Cell Class="char">GenerateTraceReport</Cell>
+          <Cell Class="char">GenerateTraceReportSl</Cell>
+          <Cell Class="char">GenerateTraceReportSf</Cell>
+          <Cell Class="char">GenerateTraceReportEml</Cell>
+          <Cell Class="char">PortableWordSizes</Cell>
+          <Cell Class="char">GenerateWebview</Cell>
+          <Cell Class="char">GenerateCodeMetricsReport</Cell>
+          <Cell Class="char">GenerateCodeReplacementReport</Cell>
+          <Cell Class="char">GenerateMissedCodeReplacementReport</Cell>
+          <Cell Class="char">GenerateErtSFunction</Cell>
+          <Cell Class="char">CreateSILPILBlock</Cell>
+          <Cell Class="char">CodeProfilingInstrumentation</Cell>
+          <Cell Class="char">DataTypeReplacement</Cell>
+          <Cell Class="char">HalideCodeGeneration</Cell>
+          <Cell Class="char">CodeStackProfiling</Cell>
+          <Cell Class="char">EmbeddedCoderDictionary</Cell>
+        </Array>
+        <P Name="Description"/>
+        <P Name="SystemTargetFile">grt.tlc</P>
         <P Name="EmbeddedCoderDictionary"/>
         <P Name="HardwareBoard">None</P>
         <P Name="ShowCustomHardwareApp">off</P>
@@ -603,7 +598,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="GenerateMakefile">on</P>
         <P Name="PackageGeneratedCodeAndArtifacts">off</P>
         <P Name="PackageName"/>
-        <P Name="TemplateMakefile">ert_default_tmf</P>
+        <P Name="TemplateMakefile">grt_default_tmf</P>
         <P Name="PostCodeGenCommand"/>
         <P Name="GenerateReport">off</P>
         <P Name="RTWVerbose">on</P>
@@ -686,7 +681,37 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
         <P Name="LargeConstantThreshold">131072</P>
         <Array PropName="Components" Type="Handle" Dimension="1*2">
           <Object ObjectID="10" Version="24.0.0" ClassName="Simulink.CodeAppCC">
-            <P Name="DisabledProps" Class="double">[]</P>
+            <Array PropName="DisabledProps" Type="Cell" Dimension="1*29">
+              <Cell Class="char">IgnoreCustomStorageClasses</Cell>
+              <Cell Class="char">InsertBlockDesc</Cell>
+              <Cell Class="char">SFDataObjDesc</Cell>
+              <Cell Class="char">SimulinkDataObjDesc</Cell>
+              <Cell Class="char">DefineNamingRule</Cell>
+              <Cell Class="char">SignalNamingRule</Cell>
+              <Cell Class="char">ParamNamingRule</Cell>
+              <Cell Class="char">InlinedPrmAccess</Cell>
+              <Cell Class="char">CustomSymbolStr</Cell>
+              <Cell Class="char">IgnoreTestpoints</Cell>
+              <Cell Class="char">InsertPolySpaceComments</Cell>
+              <Cell Class="char">MATLABFcnDesc</Cell>
+              <Cell Class="char">InternalIdentifier</Cell>
+              <Cell Class="char">CustomSymbolStrGlobalVar</Cell>
+              <Cell Class="char">CustomSymbolStrType</Cell>
+              <Cell Class="char">CustomSymbolStrField</Cell>
+              <Cell Class="char">CustomSymbolStrFcn</Cell>
+              <Cell Class="char">CustomSymbolStrModelFcn</Cell>
+              <Cell Class="char">CustomSymbolStrFcnArg</Cell>
+              <Cell Class="char">CustomSymbolStrBlkIO</Cell>
+              <Cell Class="char">CustomSymbolStrTmpVar</Cell>
+              <Cell Class="char">CustomSymbolStrMacro</Cell>
+              <Cell Class="char">CustomSymbolStrUtil</Cell>
+              <Cell Class="char">CustomSymbolStrEmxType</Cell>
+              <Cell Class="char">CustomSymbolStrEmxFcn</Cell>
+              <Cell Class="char">CustomUserTokenString</Cell>
+              <Cell Class="char">ReqsInCode</Cell>
+              <Cell Class="char">BlockCommentType</Cell>
+              <Cell Class="char">AnnotationsInComments</Cell>
+            </Array>
             <P Name="Description"/>
             <P Name="Components" Class="double">[]</P>
             <P Name="Comment"/>
@@ -706,9 +731,9 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
             <P Name="MangleLength">1</P>
             <P Name="SharedChecksumLength">8</P>
             <P Name="CustomSymbolStrGlobalVar">$R$N$M</P>
-            <P Name="CustomSymbolStrType">$N$R$M</P>
+            <P Name="CustomSymbolStrType">$N$R$M_T</P>
             <P Name="CustomSymbolStrField">$N$M</P>
-            <P Name="CustomSymbolStrFcn">$F$N$M</P>
+            <P Name="CustomSymbolStrFcn">$R$N$M$F</P>
             <P Name="CustomSymbolStrModelFcn">$R$N</P>
             <P Name="CustomSymbolStrFcnArg">rt$I$N$M</P>
             <P Name="CustomSymbolStrBlkIO">rtb_$N$M</P>
@@ -719,7 +744,7 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
             <P Name="CustomSymbolStrEmxFcn">emx$M$N</P>
             <P Name="CustomUserTokenString"/>
             <P Name="CustomCommentsFcn"/>
-            <P Name="DefineNamingRule">UpperCase</P>
+            <P Name="DefineNamingRule">None</P>
             <P Name="DefineNamingFcn"/>
             <P Name="ParamNamingRule">None</P>
             <P Name="ParamNamingFcn"/>
@@ -733,63 +758,83 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
             <P Name="MATLABSourceComments">off</P>
             <P Name="EnableCustomComments">off</P>
             <P Name="InternalIdentifierFile"/>
-            <P Name="InternalIdentifier">Classic</P>
-            <P Name="InlinedPrmAccess">Macros</P>
+            <P Name="InternalIdentifier">Shortened</P>
+            <P Name="InlinedPrmAccess">Literals</P>
             <P Name="ReqsInCode">off</P>
             <P Name="UseSimReservedNames">off</P>
             <P Name="ReservedNameArray" Class="double">[]</P>
             <P Name="EnumMemberNameClash">error</P>
           </Object>
-          <Object BackupClass="Simulink.TargetCC" ObjectID="11" Version="24.0.0" ClassName="Simulink.ERTTargetCC">
-            <P Name="DisabledProps" Class="double">[]</P>
+          <Object BackupClass="Simulink.TargetCC" ObjectID="11" Version="24.0.0" ClassName="Simulink.GRTTargetCC">
+            <Array PropName="DisabledProps" Type="Cell" Dimension="1*19">
+              <Cell Class="char">IncludeMdlTerminateFcn</Cell>
+              <Cell Class="char">RemoveResetFunc</Cell>
+              <Cell Class="char">SuppressErrorStatus</Cell>
+              <Cell Class="char">ERTCustomFileBanners</Cell>
+              <Cell Class="char">GenerateSampleERTMain</Cell>
+              <Cell Class="char">SupportNonInlinedSFcns</Cell>
+              <Cell Class="char">PurelyIntegerCode</Cell>
+              <Cell Class="char">GenerateAllocFcn</Cell>
+              <Cell Class="char">SupportComplex</Cell>
+              <Cell Class="char">SupportAbsoluteTime</Cell>
+              <Cell Class="char">SupportContinuousTime</Cell>
+              <Cell Class="char">ExistingSharedCode</Cell>
+              <Cell Class="char">GenerateTestInterfaces</Cell>
+              <Cell Class="char">ModelStepFunctionPrototypeControlCompliant</Cell>
+              <Cell Class="char">RemoveDisableFunc</Cell>
+              <Cell Class="char">PreserveStateflowLocalDataDimensions</Cell>
+              <Cell Class="char">ParenthesesLevel</Cell>
+              <Cell Class="char">ERTMultiwordTypeDef</Cell>
+              <Cell Class="char">MultiwordTypeDef</Cell>
+            </Array>
             <P Name="Description"/>
             <P Name="Components" Class="double">[]</P>
-            <P Name="TargetFcnLib">iso_tfl_tmw.mat</P>
+            <P Name="TargetFcnLib">ansi_tfl_tmw_new.mat</P>
             <P Name="TargetLibSuffix"/>
             <P Name="TargetPreCompLibLocation"/>
             <P Name="GenFloatMathFcnCalls">NOT IN USE</P>
-            <P Name="TargetLangStandard">C99 (ISO)</P>
+            <P Name="TargetLangStandard">C89/C90 (ANSI)</P>
             <P Name="CodeReplacementLibrary">None</P>
-            <P Name="UtilityFuncGeneration">Shared location</P>
+            <P Name="UtilityFuncGeneration">Auto</P>
             <P Name="MultiwordTypeDef">System defined</P>
             <P Name="MultiwordLength">2048</P>
             <P Name="DynamicStringBufferSize">256</P>
             <P Name="GenerateFullHeader">on</P>
             <P Name="InferredTypesCompatibility">off</P>
             <P Name="ExistingSharedCode"/>
-            <P Name="GenerateSampleERTMain">on</P>
+            <P Name="GenerateSampleERTMain">off</P>
             <P Name="GenerateTestInterfaces">off</P>
             <P Name="ModelReferenceCompliant">on</P>
             <P Name="ParMdlRefBuildCompliant">on</P>
             <P Name="CompOptLevelCompliant">on</P>
             <P Name="ConcurrentExecutionCompliant">on</P>
             <P Name="IncludeMdlTerminateFcn">on</P>
-            <P Name="CombineOutputUpdateFcns">on</P>
+            <P Name="CombineOutputUpdateFcns">off</P>
             <P Name="CombineSignalStateStructs">off</P>
             <P Name="GroupInternalDataByFunction">off</P>
-            <P Name="SuppressErrorStatus">on</P>
+            <P Name="SuppressErrorStatus">off</P>
             <P Name="IncludeFileDelimiter">Auto</P>
-            <P Name="ERTCustomFileBanners">on</P>
-            <P Name="SupportAbsoluteTime">off</P>
+            <P Name="ERTCustomFileBanners">off</P>
+            <P Name="SupportAbsoluteTime">on</P>
             <P Name="LogVarNameModifier">rt_</P>
-            <P Name="MatFileLogging">off</P>
+            <P Name="MatFileLogging">on</P>
             <P Name="CodeInterfacePackaging">Nonreusable function</P>
             <P Name="PurelyIntegerCode">off</P>
-            <P Name="SupportNonFinite">off</P>
-            <P Name="SupportComplex">off</P>
-            <P Name="SupportContinuousTime">off</P>
-            <P Name="SupportNonInlinedSFcns">off</P>
+            <P Name="SupportNonFinite">on</P>
+            <P Name="SupportComplex">on</P>
+            <P Name="SupportContinuousTime">on</P>
+            <P Name="SupportNonInlinedSFcns">on</P>
             <P Name="RemoveDisableFunc">off</P>
-            <P Name="RemoveResetFunc">on</P>
+            <P Name="RemoveResetFunc">off</P>
             <P Name="SupportVariableSizeSignals">off</P>
             <P Name="ParenthesesLevel">Nominal</P>
             <P Name="CastingMode">Nominal</P>
-            <P Name="MATLABClassNameForMDSCustomization">Simulink.SoftwareTarget.ERTCustomization</P>
-            <P Name="ModelStepFunctionPrototypeControlCompliant">on</P>
+            <P Name="MATLABClassNameForMDSCustomization">Simulink.SoftwareTarget.GRTCustomization</P>
+            <P Name="ModelStepFunctionPrototypeControlCompliant">off</P>
             <P Name="CPPClassGenCompliant">on</P>
             <P Name="AutosarCompliant">off</P>
             <P Name="MDXCompliant">off</P>
-            <P Name="GRTInterface">off</P>
+            <P Name="GRTInterface">on</P>
             <P Name="GenerateAllocFcn">off</P>
             <P Name="UseToolchainInfoCompliant">on</P>
             <P Name="GenerateSharedConstants">on</P>
@@ -810,105 +855,23 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
             <P Name="OptimizeReductions">off</P>
             <P Name="HeaderGuardPrefix"/>
             <P Name="LogToMDFFile">off</P>
-            <P Name="GenerateASAP2">off</P>
-            <P Name="DSAsUniqueAccess">off</P>
+            <P Name="UseMalloc">off</P>
             <P Name="ExtMode">off</P>
-            <P Name="ExtModeTransport">0</P>
             <P Name="ExtModeStaticAlloc">off</P>
+            <P Name="ExtModeTesting">off</P>
             <P Name="ExtModeAutomaticAllocSize">on</P>
             <P Name="ExtModeMaxTrigDuration">10</P>
             <P Name="ExtModeStaticAllocSize">1000000</P>
-            <P Name="ExtModeTesting">off</P>
+            <P Name="ExtModeTransport">0</P>
             <P Name="ExtModeMexFile">ext_comm</P>
             <P Name="ExtModeMexArgs"/>
             <P Name="ExtModeIntrfLevel">Level1</P>
-            <P Name="InlinedParameterPlacement">NonHierarchical</P>
-            <P Name="TargetOS">BareBoardExample</P>
-            <P Name="MultiInstanceErrorCode">Error</P>
-            <P Name="RootIOFormat">Individual arguments</P>
             <P Name="RTWCAPISignals">off</P>
             <P Name="RTWCAPIParams">off</P>
             <P Name="RTWCAPIStates">off</P>
             <P Name="RTWCAPIRootIO">off</P>
-            <P Name="ERTSrcFileBannerTemplate">ert_code_template.cgt</P>
-            <P Name="ERTHdrFileBannerTemplate">ert_code_template.cgt</P>
-            <P Name="ERTDataSrcFileTemplate">ert_code_template.cgt</P>
-            <P Name="ERTDataHdrFileTemplate">ert_code_template.cgt</P>
-            <P Name="ERTCustomFileTemplate">example_file_process.tlc</P>
-            <P Name="EnableDataOwnership">off</P>
-            <P Name="SignalDisplayLevel">10</P>
-            <P Name="ParamTuneLevel">10</P>
-            <P Name="GlobalDataDefinition">Auto</P>
-            <P Name="DataDefinitionFile">global.c</P>
-            <P Name="GlobalDataReference">Auto</P>
-            <P Name="ERTFilePackagingFormat">Modular</P>
-            <P Name="RateTransitionBlockCode">Inline</P>
-            <P Name="DataReferenceFile">global.h</P>
-            <P Name="PreserveExpressionOrder">off</P>
-            <P Name="PreserveIfCondition">off</P>
-            <P Name="ConvertIfToSwitch">off</P>
-            <P Name="PreserveExternInFcnDecls">on</P>
-            <P Name="PreserveStaticInFcnDecls">on</P>
-            <P Name="SuppressUnreachableDefaultCases">off</P>
-            <P Name="EnableSignedLeftShifts">on</P>
-            <P Name="EnableSignedRightShifts">on</P>
-            <P Name="ImplementImageWithCVMat">off</P>
-            <P Name="IndentStyle">K&amp;R</P>
-            <P Name="IndentSize">2</P>
-            <P Name="NewlineStyle">Default</P>
-            <P Name="MaxLineWidth">80</P>
-            <P Name="EnableUserReplacementTypes">off</P>
-            <Array PropName="ReplacementTypes" Type="Struct" Dimension="1*1">
-              <MATStruct>
-                <Field Name="double" Class="char"/>
-                <Field Name="single" Class="char"/>
-                <Field Name="int32" Class="char"/>
-                <Field Name="int16" Class="char"/>
-                <Field Name="int8" Class="char"/>
-                <Field Name="uint32" Class="char"/>
-                <Field Name="uint16" Class="char"/>
-                <Field Name="uint8" Class="char"/>
-                <Field Name="boolean" Class="char"/>
-                <Field Name="int" Class="char"/>
-                <Field Name="uint" Class="char"/>
-                <Field Name="char" Class="char"/>
-                <Field Name="uint64" Class="char"/>
-                <Field Name="int64" Class="char"/>
-              </MATStruct>
-            </Array>
-            <P Name="MaxIdInt64">MAX_int64_T</P>
-            <P Name="MinIdInt64">MIN_int64_T</P>
-            <P Name="MaxIdUint64">MAX_uint64_T</P>
-            <P Name="MaxIdInt32">MAX_int32_T</P>
-            <P Name="MinIdInt32">MIN_int32_T</P>
-            <P Name="MaxIdUint32">MAX_uint32_T</P>
-            <P Name="MaxIdInt16">MAX_int16_T</P>
-            <P Name="MinIdInt16">MIN_int16_T</P>
-            <P Name="MaxIdUint16">MAX_uint16_T</P>
-            <P Name="MaxIdInt8">MAX_int8_T</P>
-            <P Name="MinIdInt8">MIN_int8_T</P>
-            <P Name="MaxIdUint8">MAX_uint8_T</P>
-            <P Name="BooleanTrueId">true</P>
-            <P Name="BooleanFalseId">false</P>
-            <P Name="TypeLimitIdReplacementHeaderFile"/>
-            <P Name="MemSecPackage">--- None ---</P>
-            <P Name="MemSecDataConstants">Default</P>
-            <P Name="MemSecDataIO">Default</P>
-            <P Name="MemSecDataInternal">Default</P>
-            <P Name="MemSecDataParameters">Default</P>
-            <P Name="MemSecFuncInitTerm">Default</P>
-            <P Name="MemSecFuncExecute">Default</P>
-            <P Name="MemSecFuncSharedUtil">Default</P>
-            <P Name="GroupConstants">Default</P>
-            <P Name="GroupRootInputs">Default</P>
-            <P Name="GroupRootOutputs">Default</P>
-            <P Name="GroupInternal">Default</P>
-            <P Name="GroupParameters">Default</P>
-            <P Name="GroupDataTransfer">Default</P>
-            <P Name="GroupSharedLocalDataStores">Default</P>
-            <P Name="GroupInstanceSpecificParameters">Default</P>
-            <P Name="GroupModelData">Default</P>
-            <P Name="ArrayContainerType">C-style array</P>
+            <P Name="GenerateASAP2">off</P>
+            <P Name="MultiInstanceErrorCode">Error</P>
           </Object>
         </Array>
       </Object>
@@ -952,9 +915,9 @@ __MWOPC_PART_BEGIN__ /simulink/configSet0.xml
       </Object>
     </Array>
     <P Name="Name">Configuration</P>
-    <P Name="CurrentDlgPage">Diagnostics</P>
+    <P Name="CurrentDlgPage">Solver</P>
     <P Name="ConfigPrmDlgPosition">[ 520, 285, 1400, 915 ]</P>
-    <P Name="ExtraOptions">-aInitFltsAndDblsToZero=1 </P>
+    <P Name="ExtraOptions"/>
   </Object>
 </ConfigSet>
 
@@ -967,33 +930,8 @@ __MWOPC_PART_BEGIN__ /simulink/configSetInfo.xml
 __MWOPC_PART_BEGIN__ /simulink/graphicalInterface.xml
 <?xml version="1.0" encoding="utf-8"?>
 <GraphicalInterface>
-  <P Name="NumRootInports">1</P>
-  <Inport Name="Inport">
-    <P Name="BusObject"/>
-    <P Name="OutputFunctionCall">off</P>
-    <P Name="InportServerType">off</P>
-    <P Name="SampleTime">-1</P>
-    <P Name="UnitExpr">inherit</P>
-  </Inport>
-  <P Name="NumRootOutports">3</P>
-  <Outport Name="E_volts_in_bit_units">
-    <P Name="BusObject"/>
-    <P Name="BusOutputAsStruct">off</P>
-    <P Name="UnitExpr">inherit</P>
-    <P Name="OutportClientType">off</P>
-  </Outport>
-  <Outport Name="E_bit_units">
-    <P Name="BusObject"/>
-    <P Name="BusOutputAsStruct">off</P>
-    <P Name="UnitExpr">inherit</P>
-    <P Name="OutportClientType">off</P>
-  </Outport>
-  <Outport Name="Output">
-    <P Name="BusObject"/>
-    <P Name="BusOutputAsStruct">off</P>
-    <P Name="UnitExpr">inherit</P>
-    <P Name="OutportClientType">off</P>
-  </Outport>
+  <P Name="NumRootInports">0</P>
+  <P Name="NumRootOutports">0</P>
   <P Name="ParameterArgumentNames"/>
   <P Name="NumModelReferences">0</P>
   <P Name="NumTestPointedSignals">0</P>
@@ -1005,33 +943,19 @@ __MWOPC_PART_BEGIN__ /simulink/graphicalInterface.xml
   <P Name="NumDataStoreReferences">0</P>
   <P Name="PreCompExecutionDomainType">Unset</P>
   <P Name="UseModelRefSolver">0</P>
-  <P Name="SolverName">VariableStepDiscrete</P>
+  <P Name="SolverName">FixedStepDiscrete</P>
   <P Name="IsExportFunctionModel">0</P>
   <P Name="SimulinkSubDomainType">Simulink</P>
   <P Name="NumParameterArguments">0</P>
-  <P Name="NumExternalFileReferences">2</P>
-  <ExternalFileReference>
-    <P Name="Reference">simulink_extras/Additional
-Discrete/Idealized ADC quantizer</P>
-    <P Name="Path">$bdroot/Idealized ADC quantizer</P>
-    <P Name="SID">8</P>
-    <P Name="Type">LIBRARY_BLOCK</P>
-  </ExternalFileReference>
-  <ExternalFileReference>
-    <P Name="Reference">simulink/Sources/Repeating
-Sequence</P>
-    <P Name="Path">$bdroot/Sweep Across Voltage Range (Reference signal)</P>
-    <P Name="SID">15</P>
-    <P Name="Type">LIBRARY_BLOCK</P>
-  </ExternalFileReference>
+  <P Name="NumExternalFileReferences">0</P>
   <P Name="OrderedModelArguments">1</P>
 </GraphicalInterface>
 
 __MWOPC_PART_BEGIN__ /simulink/modelDictionary.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <MF0 version="1.1" defaultPackage="slid" packageUris="http://schema.mathworks.com/mf0/slid/R2023a_20220628">
-  <System type="System" uuid="bb52903b-1c0f-4464-83a9-64b57a959ae9">
-    <Interface type="Interface" uuid="f019db7f-2ffb-4840-af0a-c3bf3e81938c"/>
+  <System type="System" uuid="7330aebf-98fe-4d6b-8895-9b9cccb8f675">
+    <Interface type="Interface" uuid="9a3791bc-dd8d-49d4-8212-fd5f00d340e0"/>
   </System>
 </MF0>
 __MWOPC_PART_BEGIN__ /simulink/plugins/SimscapeModelParametersPlugin.xml
@@ -1043,242 +967,321 @@ __MWOPC_PART_BEGIN__ /simulink/plugins/SimscapeModelParametersPlugin.xml
 __MWOPC_PART_BEGIN__ /simulink/ScheduleCore.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <sltp_graph version="1.1" packageUris="http://schema.mathworks.com/mf0/sltp_mm/R2023a_202209151115">
-  <sltp.mm.core.Context type="sltp.mm.core.Context" uuid="ccfed994-508f-4444-bf43-ba6cc828fc81">
-    <defaultEventBehavior type="sltp.mm.core.EventBehavior" uuid="469240f6-2253-4dce-90c6-351b51f962a6"/>
-    <editorState type="sltp.mm.core.EditorState" uuid="06e4f497-a07b-492f-af8c-3377ee776c90">
-      <panelState type="sltp.mm.core.EditorPanelState" uuid="aaa10a83-8c5e-4100-9375-1e8a1e5fcd18"/>
+  <sltp.mm.core.Context type="sltp.mm.core.Context" uuid="e5c5a0f7-b761-48b3-93b6-ab14bed292be">
+    <defaultEventBehavior type="sltp.mm.core.EventBehavior" uuid="92d3692e-5210-49fd-9d7a-91a311333d55"/>
+    <editorState type="sltp.mm.core.EditorState" uuid="df1d8298-886e-4ee1-a3d6-4f89eea725b7">
+      <panelState type="sltp.mm.core.EditorPanelState" uuid="87417ce7-8db9-4714-900f-9296620a481b"/>
     </editorState>
-    <rootTask type="sltp.mm.core.Task" uuid="02886856-5686-4155-b502-65a6552fb31d">
-      <context type="sltp.mm.core.Context" uuid="ccfed994-508f-4444-bf43-ba6cc828fc81"/>
+    <rootTask type="sltp.mm.core.Task" uuid="5fc263e1-e5be-4c4e-a1aa-0e0bf0cef4b4">
+      <context type="sltp.mm.core.Context" uuid="e5c5a0f7-b761-48b3-93b6-ab14bed292be"/>
       <explicit>false</explicit>
       <name>Default</name>
       <priority>-2147483648</priority>
-      <subgraph type="sltp.mm.core.Graph" uuid="3ef8ca18-de68-49af-8d50-3cb124c28dab"/>
+      <subgraph type="sltp.mm.core.Graph" uuid="a56afb4e-5eac-4275-8c25-810aa08402bb"/>
     </rootTask>
   </sltp.mm.core.Context>
 </sltp_graph>
 __MWOPC_PART_BEGIN__ /simulink/ScheduleEditor.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <sltp_editor version="1.1" packageUris="http://schema.mathworks.com/mf0/DiagramEditor/R2019a_20181107 http://schema.mathworks.com/mf0/SltpSyntax/R2023b_202303220000">
-  <diagram.editor.model.Diagram type="diagram.editor.model.Diagram" uuid="d9cec05f-9d8f-4811-b9a3-486dc8af7bb4">
+  <diagram.editor.model.Diagram type="diagram.editor.model.Diagram" uuid="26298aad-895e-4bf3-9939-7403da01b3eb">
     <position>0,0</position>
     <size>0,0,0,0</size>
-    <syntaxElement type="sltp.mm.syntax.Graph" uuid="ddd49984-f019-40e5-ba26-50a872ed417c"/>
+    <syntaxElement type="sltp.mm.syntax.Graph" uuid="bc7047b6-268d-4b61-ab88-ef7d601bfff7"/>
     <title>Default</title>
     <type>graph.Graph</type>
   </diagram.editor.model.Diagram>
-  <sltp.mm.syntax.Context type="sltp.mm.syntax.Context" uuid="625f59a6-de43-4a8b-addc-4949d020ddd8">
-    <rootGraph type="sltp.mm.syntax.Graph" uuid="ddd49984-f019-40e5-ba26-50a872ed417c">
+  <sltp.mm.syntax.Context type="sltp.mm.syntax.Context" uuid="a5d60474-a21d-4068-a34a-a221b574a4c7">
+    <rootGraph type="sltp.mm.syntax.Graph" uuid="bc7047b6-268d-4b61-ab88-ef7d601bfff7">
       <priorityDirection>HighNumberFirst</priorityDirection>
       <title>Default</title>
-      <diagramElement type="diagram.editor.model.Diagram" uuid="d9cec05f-9d8f-4811-b9a3-486dc8af7bb4"/>
+      <diagramElement type="diagram.editor.model.Diagram" uuid="26298aad-895e-4bf3-9939-7403da01b3eb"/>
     </rootGraph>
   </sltp.mm.syntax.Context>
 </sltp_editor>
-__MWOPC_PART_BEGIN__ /simulink/stateflow/machine.xml
-<?xml version="1.0" encoding="utf-8"?>
-<Stateflow>
-  <machine id="1">
-    <P Name="sfVersion">80000101</P>
-    <P Name="sfDemoChecksum">[3533026520 1817703202 3170276942 2180310360]</P>
-    <P Name="zeroJitEmissions">1</P>
-    <Children>
-      <target id="2" name="sfun">
-        <P Name="codeFlags"/>
-      </target>
-      <target id="3" name="rtw">
-        <P Name="codeFlags"> comments=1 statebitsets=1 databitsets=1 emitlogicalops=1 elseifdetection=1 constantfolding=1 redundantloadelimination=0 preserveconstantnames=0 preservenames=0 preservenameswithparent=0 exportcharts=0</P>
-      </target>
-    </Children>
-  </machine>
-</Stateflow>
-
 __MWOPC_PART_BEGIN__ /simulink/systems/_rels/system_root.xml.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="system_10" Target="system_10.xml" Type="http://schemas.mathworks.com/simulink/2010/relationships/system"/>
-  <Relationship Id="system_9" Target="system_9.xml" Type="http://schemas.mathworks.com/simulink/2010/relationships/system"/>
+  <Relationship Id="system_1" Target="system_1.xml" Type="http://schemas.mathworks.com/simulink/2010/relationships/system"/>
+  <Relationship Id="system_2" Target="system_2.xml" Type="http://schemas.mathworks.com/simulink/2010/relationships/system"/>
 </Relationships>
 
-__MWOPC_PART_BEGIN__ /simulink/systems/system_10.xml
-<?xml version="1.0" encoding="utf-8"?>
-<System>
-  <P Name="Location">[748, 206, 1475, 886]</P>
-  <Block BlockType="Inport" Name="V" SID="11">
-    <P Name="Position">[65, 83, 95, 97]</P>
-    <P Name="ZOrder">-1</P>
-  </Block>
-  <Block BlockType="Bias" Name="Bias" SID="12">
-    <P Name="Position">[170, 75, 225, 105]</P>
-    <P Name="ZOrder">-2</P>
-    <P Name="SaturateOnIntegerOverflow">off</P>
-  </Block>
-  <Block BlockType="Gain" Name="Re-Scale" SID="13">
-    <P Name="Position">[290, 67, 355, 113]</P>
-    <P Name="ZOrder">-3</P>
-    <P Name="Gain">4096/5</P>
-  </Block>
-  <Block BlockType="Outport" Name="bit_units" SID="14">
-    <P Name="Position">[500, 83, 530, 97]</P>
-    <P Name="ZOrder">-4</P>
-    <P Name="VectorParamsAs1DForOutWhenUnconnected">off</P>
-  </Block>
-  <Line>
-    <P Name="ZOrder">1</P>
-    <P Name="Src">12#out:1</P>
-    <P Name="Dst">13#in:1</P>
-  </Line>
-  <Line>
-    <P Name="ZOrder">2</P>
-    <P Name="Src">11#out:1</P>
-    <P Name="Dst">12#in:1</P>
-  </Line>
-  <Line>
-    <P Name="ZOrder">3</P>
-    <P Name="Src">13#out:1</P>
-    <P Name="Dst">14#in:1</P>
-  </Line>
-</System>
-
-__MWOPC_PART_BEGIN__ /simulink/systems/system_9.xml
+__MWOPC_PART_BEGIN__ /simulink/systems/system_1.xml
 <?xml version="1.0" encoding="utf-8"?>
 <System>
   <P Name="Location">[64, 148, 758, 807]</P>
 </System>
 
+__MWOPC_PART_BEGIN__ /simulink/systems/system_2.xml
+<?xml version="1.0" encoding="utf-8"?>
+<System>
+  <P Name="Location">[1333, 377, 3197, 1788]</P>
+  <P Name="ZoomFactor">336</P>
+  <Block BlockType="Inport" Name="u1" SID="3">
+    <P Name="Position">[25, 98, 55, 112]</P>
+    <P Name="ZOrder">-1</P>
+    <P Name="Port">2</P>
+  </Block>
+  <Block BlockType="Switch" Name="Switch" SID="4">
+    <P Name="Position">[215, 77, 250, 243]</P>
+    <P Name="ZOrder">-2</P>
+    <P Name="Threshold">TypeB_Volts(12)</P>
+    <P Name="InputSameDT">off</P>
+    <P Name="SaturateOnIntegerOverflow">off</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;conditioning B lower" SID="5">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[115, 189, 170, 241]</P>
+    <P Name="ZOrder">-3</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeB_Volts(12:-1:1)</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeB_degC(12:-1:1)</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;conditioning B upper" SID="6">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[115, 79, 170, 131]</P>
+    <P Name="ZOrder">-4</P>
+    <P Name="NameLocation">top</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeB_Volts(12:end)</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeB_degC(12:end)</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Outport" Name="degC" SID="7">
+    <P Name="Position">[295, 153, 325, 167]</P>
+    <P Name="ZOrder">-5</P>
+    <P Name="ShowName">off</P>
+    <P Name="Port">2</P>
+    <P Name="VectorParamsAs1DForOutWhenUnconnected">off</P>
+  </Block>
+  <Line>
+    <P Name="ZOrder">1</P>
+    <P Name="Src">4#out:1</P>
+    <P Name="Dst">7#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">2</P>
+    <P Name="Src">5#out:1</P>
+    <P Name="Dst">4#in:3</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">3</P>
+    <P Name="Src">6#out:1</P>
+    <P Name="Dst">4#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">4</P>
+    <P Name="Src">3#out:1</P>
+    <P Name="Points">[15, 0]</P>
+    <Branch>
+      <P Name="ZOrder">5</P>
+      <P Name="Points">[0, 55]</P>
+      <Branch>
+        <P Name="ZOrder">6</P>
+        <P Name="Dst">4#in:2</P>
+      </Branch>
+      <Branch>
+        <P Name="ZOrder">7</P>
+        <P Name="Points">[0, 55]</P>
+        <P Name="Dst">5#in:1</P>
+      </Branch>
+    </Branch>
+    <Branch>
+      <P Name="ZOrder">8</P>
+      <P Name="Dst">6#in:1</P>
+    </Branch>
+  </Line>
+</System>
+
 __MWOPC_PART_BEGIN__ /simulink/systems/system_root.xml
 <?xml version="1.0" encoding="utf-8"?>
 <System>
-  <P Name="Location">[8, 35, 2466, 1744]</P>
+  <P Name="Location">[1333, 377, 3197, 1788]</P>
   <P Name="Open">on</P>
-  <P Name="ZoomFactor">406</P>
+  <P Name="ZoomFactor">215</P>
   <P Name="ReportName">simulink-default.rpt</P>
   <P Name="SIDHighWatermark">25</P>
-  <Block BlockType="Inport" Name="Inport" SID="23">
-    <P Name="Position">[375, 163, 405, 177]</P>
-    <P Name="ZOrder">176</P>
-  </Block>
-  <Block BlockType="Gain" Name="Gain" SID="24">
-    <P Name="Position">[440, 155, 470, 185]</P>
-    <P Name="ZOrder">177</P>
-  </Block>
-  <Block BlockType="Reference" Name="Idealized ADC quantizer" SID="8">
-    <PortCounts in="1" out="1"/>
-    <P Name="Position">[245, 105, 305, 155]</P>
-    <P Name="ZOrder">-2</P>
-    <P Name="AttributesFormatString">(settings: %&lt;NumberOfConverterBits&gt;-bit converter\nVmin: %&lt;Vmin&gt;, Vmax: %&lt;Vmax&gt;)</P>
-    <P Name="LibraryVersion">13.0</P>
-    <P Name="SourceBlock">simulink_extras/Additional
-Discrete/Idealized ADC quantizer</P>
-    <P Name="SourceType">IdealADC</P>
-    <InstanceData>
-      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
-      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
-      <P Name="RTWMemSecDataConstants">Inherit from model</P>
-      <P Name="RTWMemSecDataInternal">Inherit from model</P>
-      <P Name="RTWMemSecDataParameters">Inherit from model</P>
-      <P Name="ContentPreviewEnabled">off</P>
-      <P Name="NumberOfConverterBits">16</P>
-      <P Name="Vmin">0</P>
-      <P Name="Vmax">5</P>
-      <P Name="OutputDataType">int16</P>
-      <P Name="OutputNegativeValues">off</P>
-    </InstanceData>
-  </Block>
-  <Block BlockType="SubSystem" Name="More Info" SID="9">
+  <Block BlockType="SubSystem" Name="More Info" SID="1">
     <PortCounts/>
-    <P Name="Position">[85, 35, 108, 55]</P>
-    <P Name="ZOrder">-3</P>
+    <P Name="Position">[45, 25, 68, 45]</P>
+    <P Name="ZOrder">-1</P>
     <P Name="DropShadow">on</P>
     <P Name="ShowName">off</P>
     <P Name="OpenFcn">showExample(&apos;simulink_general/sldemo_tc_scriptExample&apos;)</P>
     <Mask>
       <Display RunInitForIconRedraw="off">disp(&apos;?&apos;)</Display>
     </Mask>
-    <System Ref="system_9"/>
+    <System Ref="system_1"/>
   </Block>
-  <Block BlockType="SubSystem" Name="Rescale volts to&#xA;match ADC signal" SID="10">
+  <Block BlockType="SubSystem" Name="Thermocouple&#xA;conditioning 1" SID="2">
+    <PortCounts in="2" out="2"/>
+    <P Name="Position">[30, 206, 85, 259]</P>
+    <P Name="ZOrder">-2</P>
+    <P Name="AttributesFormatString">TypeB_Volts to\nTypeB_degC</P>
+    <Mask>
+      <Display IconOpaque="transparent" RunInitForIconRedraw="off" IconUnits="normalized">text(.15,.85,&apos;1-D T(u)&apos;)
+plot([0.3 0.3 0.95],[0.7 0.05 0.05])
+plot([0.95 0.7515 0.554 0.4535 0.375 0.335 0.325],[0.7 0.6 0.5 0.4 0.3 0.2 0.05])</Display>
+    </Mask>
+    <System Ref="system_2"/>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;conditioning 2" SID="8">
     <PortCounts in="1" out="1"/>
-    <P Name="Position">[350, 207, 430, 243]</P>
+    <P Name="Position">[120, 204, 175, 256]</P>
+    <P Name="ZOrder">-3</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeE_Volts</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeE_degC</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;conditioning 3" SID="9">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[210, 204, 265, 256]</P>
     <P Name="ZOrder">-4</P>
-    <System Ref="system_10"/>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeJ_Volts</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeJ_degC</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
   </Block>
-  <Block BlockType="Reference" Name="Sweep Across&#xA;Voltage Range&#xA;(Reference signal)" SID="15">
-    <PortCounts out="1"/>
-    <P Name="Position">[75, 115, 120, 145]</P>
-    <P Name="ZOrder">-5</P>
-    <P Name="LibraryVersion">6.1</P>
-    <P Name="SourceBlock">simulink/Sources/Repeating
-Sequence</P>
-    <P Name="SourceType">Repeating table</P>
-    <InstanceData>
-      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
-      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
-      <P Name="RTWMemSecDataConstants">Inherit from model</P>
-      <P Name="RTWMemSecDataInternal">Inherit from model</P>
-      <P Name="RTWMemSecDataParameters">Inherit from model</P>
-      <P Name="ContentPreviewEnabled">off</P>
-      <P Name="rep_seq_t">[0 700]</P>
-      <P Name="rep_seq_y">[-0.25, 7]</P>
-    </InstanceData>
-    <PortProperties>
-      <Port Type="out" Index="1">
-        <P Name="Name">V</P>
-      </Port>
-    </PortProperties>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;conditioning 8" SID="14">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[665, 244, 720, 296]</P>
+    <P Name="ZOrder">-9</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeT_Volts</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeT_degC</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
   </Block>
-  <Block BlockType="Outport" Name="E_volts_in_bit_units" SID="16">
-    <P Name="Position">[565, 218, 595, 232]</P>
-    <P Name="ZOrder">-6</P>
-    <P Name="VectorParamsAs1DForOutWhenUnconnected">off</P>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 1" SID="15">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[30, 79, 85, 131]</P>
+    <P Name="ZOrder">-10</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeB_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeB_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
   </Block>
-  <Block BlockType="Outport" Name="E_bit_units" SID="17">
-    <P Name="Position">[575, 123, 605, 137]</P>
-    <P Name="ZOrder">-7</P>
-    <P Name="Port">2</P>
-    <P Name="VectorParamsAs1DForOutWhenUnconnected">off</P>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 2" SID="16">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[120, 79, 175, 131]</P>
+    <P Name="ZOrder">-11</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeE_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeE_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
   </Block>
-  <Block BlockType="Outport" Name="Output" SID="25">
-    <P Name="Position">[505, 163, 535, 177]</P>
-    <P Name="ZOrder">179</P>
-    <P Name="Port">3</P>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 3" SID="17">
+    <PortCounts in="2" out="1"/>
+    <P Name="Position">[210, 73, 265, 137]</P>
+    <P Name="ZOrder">-12</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0,u1</P>
+    <P Name="BreakpointsForDimension1">TypeJ_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeJ_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 4" SID="18">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[300, 79, 355, 131]</P>
+    <P Name="ZOrder">-13</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeK_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeK_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 5" SID="19">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[390, 204, 445, 256]</P>
+    <P Name="ZOrder">-14</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeN_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeN_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 6" SID="20">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[435, 79, 490, 131]</P>
+    <P Name="ZOrder">-15</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeR_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeR_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
+  </Block>
+  <Block BlockType="Lookup_n-D" Name="Thermocouple&#xA;model 8" SID="22">
+    <PortCounts in="1" out="1"/>
+    <P Name="Position">[535, 79, 590, 131]</P>
+    <P Name="ZOrder">-17</P>
+    <P Name="AttributesFormatString">%&lt;bp1&gt; to\n%&lt;tableData&gt;</P>
+    <P Name="InputPortMap">u0</P>
+    <P Name="NumberOfTableDimensions">1</P>
+    <P Name="BreakpointsForDimension1">TypeT_degC</P>
+    <P Name="BeginIndexSearchUsingPreviousIndexResult">on</P>
+    <P Name="Table">TypeT_Volts</P>
+    <P Name="DiagnosticForOutOfRangeInput">Warning</P>
   </Block>
   <Line>
-    <P Name="Name">V</P>
     <P Name="ZOrder">1</P>
-    <P Name="Labels">[0, 0]</P>
-    <P Name="Src">15#out:1</P>
-    <P Name="Points">[60, 0]</P>
-    <Branch>
-      <P Name="ZOrder">2</P>
-      <P Name="Points">[0, 95]</P>
-      <P Name="Dst">10#in:1</P>
-    </Branch>
-    <Branch>
-      <P Name="ZOrder">3</P>
-      <P Name="Dst">8#in:1</P>
-    </Branch>
+    <P Name="Src">8#out:1</P>
+    <P Name="Dst">9#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">2</P>
+    <P Name="Src">17#out:1</P>
+    <P Name="Dst">18#in:1</P>
+  </Line>
+  <Line>
+    <P Name="ZOrder">3</P>
+    <P Name="Src">22#out:1</P>
+    <P Name="Points">[51, 0; 0, 165]</P>
+    <P Name="Dst">14#in:1</P>
   </Line>
   <Line>
     <P Name="ZOrder">4</P>
-    <P Name="Src">8#out:1</P>
-    <P Name="Dst">17#in:1</P>
+    <P Name="Src">9#out:1</P>
+    <P Name="Dst">19#in:1</P>
   </Line>
-  <Line>
-    <P Name="ZOrder">5</P>
-    <P Name="Src">10#out:1</P>
-    <P Name="Dst">16#in:1</P>
-  </Line>
-  <Line>
-    <P Name="ZOrder">9</P>
-    <P Name="Src">23#out:1</P>
-    <P Name="Dst">24#in:1</P>
-  </Line>
-  <Line>
-    <P Name="ZOrder">10</P>
-    <P Name="Src">24#out:1</P>
-    <P Name="Dst">25#in:1</P>
-  </Line>
+  <Annotation SID="23">
+    <P Name="Name">Full-Range 2 degrees Celsius Interpolated Thermocouple Tables
+created from ITS-90 Interpolating Polynomials</P>
+    <P Name="Position">[94, 13, 644, 57]</P>
+    <P Name="InternalMargins">[0, 0, 0, 0]</P>
+    <P Name="ZOrder">-1</P>
+    <P Name="FontName">Arial</P>
+    <P Name="FontSize">18</P>
+    <P Name="FontWeight">bold</P>
+  </Annotation>
 </System>
 
 __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
@@ -1287,7 +1290,7 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
   <Object PropName="BdWindowsInfo" ObjectID="1" ClassName="Simulink.BDWindowsInfo">
     <Object PropName="WindowsInfo" ObjectID="2" ClassName="Simulink.WindowInfo">
       <P Name="IsActive" Class="logical">1</P>
-      <P Name="Location" Class="double">[8.0, 35.0, 2458.0, 1709.0]</P>
+      <P Name="Location" Class="double">[1333.0, 377.0, 1864.0, 1411.0]</P>
       <Object PropName="ModelBrowserInfo" ObjectID="3" ClassName="Simulink.ModelBrowserInfo">
         <P Name="Visible" Class="logical">0</P>
         <P Name="DockPosition" Class="char">Left</P>
@@ -1299,18 +1302,30 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
       <Object PropName="ExplorerBarInfo" ObjectID="4" ClassName="Simulink.ExplorerBarInfo">
         <P Name="Visible" Class="logical">1</P>
       </Object>
-      <Object PropName="EditorsInfo" ObjectID="5" ClassName="Simulink.EditorInfo">
-        <P Name="IsActive" Class="logical">1</P>
-        <P Name="IsTabbed" Class="logical">1</P>
-        <P Name="ViewObjType" Class="char">SimulinkTopLevel</P>
-        <P Name="LoadSaveID" Class="char">0</P>
-        <P Name="Extents" Class="double">[2418.0, 1473.0]</P>
-        <P Name="ZoomFactor" Class="double">4.0625746992111766</P>
-        <P Name="Offset" Class="double">[47.678909518828448, 12.211025758368208]</P>
-        <P Name="SceneRectInView" Class="double">[47.678909518828448, 12.211025758368208, 595.1890559623431, 362.57794848326358]</P>
-      </Object>
-      <Array PropName="DockComponentsInfo" Type="Simulink.DockComponentInfo" Dimension="1*2">
+      <Array PropName="EditorsInfo" Type="Simulink.EditorInfo" Dimension="1*2">
+        <Object ObjectID="5">
+          <P Name="IsActive" Class="logical">1</P>
+          <P Name="IsTabbed" Class="logical">1</P>
+          <P Name="ViewObjType" Class="char">SimulinkTopLevel</P>
+          <P Name="LoadSaveID" Class="char">0</P>
+          <P Name="Extents" Class="double">[1824.0, 961.0]</P>
+          <P Name="ZoomFactor" Class="double">2.1547344110854505</P>
+          <P Name="Offset" Class="double">[-53.394644292604482, 6.5026795284030072]</P>
+          <P Name="SceneRectInView" Class="double">[-53.394644292604482, 6.5026795284030072, 846.508038585209, 445.994640943194]</P>
+        </Object>
         <Object ObjectID="6">
+          <P Name="IsActive" Class="logical">0</P>
+          <P Name="IsTabbed" Class="logical">0</P>
+          <P Name="ViewObjType" Class="char">SimulinkSubsys</P>
+          <P Name="LoadSaveID" Class="char">2</P>
+          <P Name="Extents" Class="double">[1824.0, 961.0]</P>
+          <P Name="ZoomFactor" Class="double">3.3561151079136691</P>
+          <P Name="Offset" Class="double">[-96.742765273311875, 16.828510182207935]</P>
+          <P Name="SceneRectInView" Class="double">[-96.742765273311875, 16.828510182207935, 543.48553054662375, 286.34297963558413]</P>
+        </Object>
+      </Array>
+      <Array PropName="DockComponentsInfo" Type="Simulink.DockComponentInfo" Dimension="1*2">
+        <Object ObjectID="7">
           <P Name="Type" Class="char">Simulink:Editor:ReferencedFiles</P>
           <P Name="ID" Class="char">Referenced Files</P>
           <P Name="Visible" Class="logical">0</P>
@@ -1323,7 +1338,7 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
           <P Name="Height" Class="int32">480</P>
           <P Name="Minimized" Class="char">Unset</P>
         </Object>
-        <Object ObjectID="7">
+        <Object ObjectID="8">
           <P Name="Type" Class="char">GLUE2:PropertyInspector</P>
           <P Name="ID" Class="char">Property Inspector</P>
           <P Name="Visible" Class="logical">0</P>
@@ -1336,11 +1351,11 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
           <P Name="Minimized" Class="char">Unset</P>
         </Object>
       </Array>
-      <P Name="WindowState" Class="char">AAAA/wAAAAD9AAAAAwAAAAAAAAC9AAACLPwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAAAAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAQAAAAiwAAABiAP////sAAABgAFMAaQBtAHUAbABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZQBzAAAAAAD/////AAAAiQD///8AAAABAAAAAAAAAAD8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAdABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAAA/////wAAAawA////AAAAAwAAAAAAAAAA/AEAAAAB+/////8AAAAAAP////8AAAJ5AP///wAACZgAAAX+AAAAAQAAAAIAAAABAAAAAvwAAAABAAAAAgAAAAA=</P>
+      <P Name="WindowState" Class="char">AAAA/wAAAAD9AAAAAwAAAAAAAAC9AAAB+PwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAAAAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAABiAP////sAAABgAFMAaQBtAHUAbABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZQBzAAAAAAD/////AAAAiQD///8AAAABAAAAAAAAAAD8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAdABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAAA/////wAAAawA////AAAAAwAAB0YAAADQ/AEAAAAB+/////8BAAAAAAAAB0YAAAJ5AP///wAAB0YAAAP+AAAAAQAAAAIAAAABAAAAAvwAAAABAAAAAgAAAAA=</P>
       <Array PropName="PersistedApps" Type="Cell" Dimension="0*1"/>
-      <P Name="WindowUuid" Class="char">67c4f1d5-9ce0-4a30-9f1c-2b968f8ea5c3</P>
+      <P Name="WindowUuid" Class="char">a8639f24-1c55-4995-8a64-7b6ed0bebb72</P>
     </Object>
-    <P Name="BDUuid" Class="char">ca033c98-3f4c-41a2-bb9f-12dab8a8ccd1</P>
+    <P Name="BDUuid" Class="char">49c94fd4-1892-4cfb-8170-2a2d207710a8</P>
   </Object>
 </WindowsInfo>
 
